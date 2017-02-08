@@ -1,0 +1,1090 @@
+"ePL.ml" 11 239 247 "ePL.ml" 11 239 260
+type(
+  ePL_expr -> string
+)
+ident(
+  def string_of_ePL "ePL.ml" 11 239 239 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 11 239 262 "ePL.ml" 11 239 263
+type(
+  ePL_expr
+)
+ident(
+  def e "ePL.ml" 11 239 273 "ePL.ml" 16 471 565
+)
+"ePL.ml" 12 283 291 "ePL.ml" 12 283 292
+type(
+  ePL_expr
+)
+ident(
+  int_ref e "ePL.ml" 11 239 262 "ePL.ml" 11 239 263
+)
+"ePL.ml" 13 298 314 "ePL.ml" 13 298 315
+type(
+  bool
+)
+ident(
+  def v "ePL.ml" 13 298 319 "ePL.ml" 13 298 354
+)
+"ePL.ml" 13 298 304 "ePL.ml" 13 298 315
+type(
+  ePL_expr
+)
+"ePL.ml" 13 298 319 "ePL.ml" 13 298 331
+type(
+  string
+)
+"ePL.ml" 13 298 331 "ePL.ml" 13 298 332
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 13 298 333 "ePL.ml" 13 298 347
+type(
+  bool -> string
+)
+ident(
+  ext_ref Pervasives.string_of_bool
+)
+"ePL.ml" 13 298 348 "ePL.ml" 13 298 349
+type(
+  bool
+)
+ident(
+  int_ref v "ePL.ml" 13 298 314 "ePL.ml" 13 298 315
+)
+"ePL.ml" 13 298 332 "ePL.ml" 13 298 350
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 13 298 350 "ePL.ml" 13 298 351
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 13 298 351 "ePL.ml" 13 298 354
+type(
+  string
+)
+"ePL.ml" 13 298 332 "ePL.ml" 13 298 354
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 13 298 319 "ePL.ml" 13 298 354
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 14 355 370 "ePL.ml" 14 355 371
+type(
+  int
+)
+ident(
+  def v "ePL.ml" 14 355 375 "ePL.ml" 14 355 408
+)
+"ePL.ml" 14 355 361 "ePL.ml" 14 355 371
+type(
+  ePL_expr
+)
+"ePL.ml" 14 355 375 "ePL.ml" 14 355 386
+type(
+  string
+)
+"ePL.ml" 14 355 386 "ePL.ml" 14 355 387
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 14 355 388 "ePL.ml" 14 355 401
+type(
+  int -> string
+)
+ident(
+  ext_ref Pervasives.string_of_int
+)
+"ePL.ml" 14 355 402 "ePL.ml" 14 355 403
+type(
+  int
+)
+ident(
+  int_ref v "ePL.ml" 14 355 370 "ePL.ml" 14 355 371
+)
+"ePL.ml" 14 355 387 "ePL.ml" 14 355 404
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 14 355 404 "ePL.ml" 14 355 405
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 14 355 405 "ePL.ml" 14 355 408
+type(
+  string
+)
+"ePL.ml" 14 355 387 "ePL.ml" 14 355 408
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 14 355 375 "ePL.ml" 14 355 408
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 15 409 429 "ePL.ml" 15 409 431
+type(
+  op_id
+)
+ident(
+  def op "ePL.ml" 15 409 440 "ePL.ml" 15 409 470
+)
+"ePL.ml" 15 409 432 "ePL.ml" 15 409 435
+type(
+  ePL_expr
+)
+ident(
+  def arg "ePL.ml" 15 409 440 "ePL.ml" 15 409 470
+)
+"ePL.ml" 15 409 415 "ePL.ml" 15 409 436
+type(
+  ePL_expr
+)
+"ePL.ml" 15 409 440 "ePL.ml" 15 409 442
+type(
+  op_id
+)
+ident(
+  int_ref op "ePL.ml" 15 409 429 "ePL.ml" 15 409 431
+)
+"ePL.ml" 15 409 442 "ePL.ml" 15 409 443
+type(
+  op_id -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 15 409 443 "ePL.ml" 15 409 446
+type(
+  string
+)
+"ePL.ml" 15 409 446 "ePL.ml" 15 409 447
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 15 409 448 "ePL.ml" 15 409 461
+type(
+  ePL_expr -> string
+)
+ident(
+  int_ref string_of_ePL "ePL.ml" 11 239 247 "ePL.ml" 11 239 260
+)
+"ePL.ml" 15 409 462 "ePL.ml" 15 409 465
+type(
+  ePL_expr
+)
+ident(
+  int_ref arg "ePL.ml" 15 409 432 "ePL.ml" 15 409 435
+)
+"ePL.ml" 15 409 447 "ePL.ml" 15 409 466
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 15 409 466 "ePL.ml" 15 409 467
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 15 409 467 "ePL.ml" 15 409 470
+type(
+  string
+)
+"ePL.ml" 15 409 447 "ePL.ml" 15 409 470
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 15 409 443 "ePL.ml" 15 409 470
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 15 409 440 "ePL.ml" 15 409 470
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 16 471 492 "ePL.ml" 16 471 494
+type(
+  op_id
+)
+ident(
+  def op "ePL.ml" 16 471 509 "ePL.ml" 16 471 565
+)
+"ePL.ml" 16 471 495 "ePL.ml" 16 471 499
+type(
+  ePL_expr
+)
+ident(
+  def arg1 "ePL.ml" 16 471 509 "ePL.ml" 16 471 565
+)
+"ePL.ml" 16 471 500 "ePL.ml" 16 471 504
+type(
+  ePL_expr
+)
+ident(
+  def arg2 "ePL.ml" 16 471 509 "ePL.ml" 16 471 565
+)
+"ePL.ml" 16 471 477 "ePL.ml" 16 471 505
+type(
+  ePL_expr
+)
+"ePL.ml" 16 471 509 "ePL.ml" 16 471 511
+type(
+  op_id
+)
+ident(
+  int_ref op "ePL.ml" 16 471 492 "ePL.ml" 16 471 494
+)
+"ePL.ml" 16 471 511 "ePL.ml" 16 471 512
+type(
+  op_id -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 16 471 512 "ePL.ml" 16 471 515
+type(
+  string
+)
+"ePL.ml" 16 471 515 "ePL.ml" 16 471 516
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 16 471 517 "ePL.ml" 16 471 530
+type(
+  ePL_expr -> string
+)
+ident(
+  int_ref string_of_ePL "ePL.ml" 11 239 247 "ePL.ml" 11 239 260
+)
+"ePL.ml" 16 471 531 "ePL.ml" 16 471 535
+type(
+  ePL_expr
+)
+ident(
+  int_ref arg1 "ePL.ml" 16 471 495 "ePL.ml" 16 471 499
+)
+"ePL.ml" 16 471 516 "ePL.ml" 16 471 536
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 536 "ePL.ml" 16 471 537
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 16 471 537 "ePL.ml" 16 471 540
+type(
+  string
+)
+"ePL.ml" 16 471 540 "ePL.ml" 16 471 541
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 16 471 542 "ePL.ml" 16 471 555
+type(
+  ePL_expr -> string
+)
+ident(
+  int_ref string_of_ePL "ePL.ml" 11 239 247 "ePL.ml" 11 239 260
+)
+"ePL.ml" 16 471 556 "ePL.ml" 16 471 560
+type(
+  ePL_expr
+)
+ident(
+  int_ref arg2 "ePL.ml" 16 471 500 "ePL.ml" 16 471 504
+)
+"ePL.ml" 16 471 541 "ePL.ml" 16 471 561
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 561 "ePL.ml" 16 471 562
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 16 471 562 "ePL.ml" 16 471 565
+type(
+  string
+)
+"ePL.ml" 16 471 541 "ePL.ml" 16 471 565
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 537 "ePL.ml" 16 471 565
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 516 "ePL.ml" 16 471 565
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 512 "ePL.ml" 16 471 565
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 16 471 509 "ePL.ml" 16 471 565
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 12 283 285 "ePL.ml" 16 471 565
+type(
+  string
+)
+type(
+  string
+)
+"ePL.ml" 22 609 613 "ePL.ml" 22 609 631
+type(
+  ePL_type -> string
+)
+ident(
+  def string_of_ePL_type "ePL.ml" 27 718 718 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 22 609 633 "ePL.ml" 22 609 634
+type(
+  ePL_type
+)
+ident(
+  def e "ePL.ml" 22 609 644 "ePL.ml" 25 694 716
+)
+"ePL.ml" 23 654 662 "ePL.ml" 23 654 663
+type(
+  ePL_type
+)
+ident(
+  int_ref e "ePL.ml" 22 609 633 "ePL.ml" 22 609 634
+)
+"ePL.ml" 24 669 675 "ePL.ml" 24 669 683
+type(
+  ePL_type
+)
+"ePL.ml" 24 669 687 "ePL.ml" 24 669 693
+type(
+  string
+)
+"ePL.ml" 25 694 700 "ePL.ml" 25 694 707
+type(
+  ePL_type
+)
+"ePL.ml" 25 694 711 "ePL.ml" 25 694 716
+type(
+  string
+)
+"ePL.ml" 23 654 656 "ePL.ml" 25 694 716
+type(
+  string
+)
+type(
+  string
+)
+"ePL.ml" 35 905 909 "ePL.ml" 35 905 913
+type(
+  eVML_prog
+)
+ident(
+  def iSeq "ePL.ml" 37 958 958 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 35 905 934 "ePL.ml" 35 905 935
+type(
+  int
+)
+"ePL.ml" 35 905 929 "ePL.ml" 35 905 935
+type(
+  eVML_inst
+)
+"ePL.ml" 35 905 942 "ePL.ml" 35 905 943
+type(
+  int
+)
+"ePL.ml" 35 905 937 "ePL.ml" 35 905 943
+type(
+  eVML_inst
+)
+"ePL.ml" 35 905 945 "ePL.ml" 35 905 949
+type(
+  eVML_inst
+)
+"ePL.ml" 35 905 951 "ePL.ml" 35 905 955
+type(
+  eVML_inst
+)
+"ePL.ml" 35 905 928 "ePL.ml" 35 905 956
+type(
+  eVML_prog
+)
+type(
+  eVML_prog
+)
+"ePL.ml" 37 958 962 "ePL.ml" 37 958 966
+type(
+  eVML_inst array
+)
+ident(
+  def iArr "ePL.ml" 39 1007 1007 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 37 958 987 "ePL.ml" 37 958 1000
+type(
+  eVML_prog -> eVML_inst array
+)
+ident(
+  ext_ref Array.of_list
+)
+"ePL.ml" 37 958 1001 "ePL.ml" 37 958 1005
+type(
+  eVML_prog
+)
+ident(
+  int_ref iSeq "ePL.ml" 35 905 909 "ePL.ml" 35 905 913
+)
+"ePL.ml" 37 958 987 "ePL.ml" 37 958 1005
+call(
+  stack
+)
+type(
+  eVML_inst array
+)
+type(
+  eVML_inst array
+)
+"ePL.ml" 39 1007 1011 "ePL.ml" 39 1007 1022
+type(
+  int -> bool
+)
+ident(
+  def decode_bool "ePL.ml" 44 1077 1077 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 39 1007 1023 "ePL.ml" 39 1007 1024
+type(
+  int
+)
+ident(
+  def x "ePL.ml" 40 1028 1030 "ePL.ml" 42 1060 1075
+)
+"ePL.ml" 40 1028 1036 "ePL.ml" 40 1028 1037
+type(
+  int
+)
+ident(
+  int_ref x "ePL.ml" 39 1007 1023 "ePL.ml" 39 1007 1024
+)
+"ePL.ml" 41 1043 1049 "ePL.ml" 41 1043 1050
+type(
+  int
+)
+"ePL.ml" 41 1043 1054 "ePL.ml" 41 1043 1059
+type(
+  bool
+)
+"ePL.ml" 42 1060 1066 "ePL.ml" 42 1060 1067
+type(
+  int
+)
+"ePL.ml" 42 1060 1071 "ePL.ml" 42 1060 1075
+type(
+  bool
+)
+"ePL.ml" 40 1028 1030 "ePL.ml" 42 1060 1075
+type(
+  bool
+)
+"ePL.ml" 44 1077 1081 "ePL.ml" 44 1077 1095
+type(
+  eVML_inst -> string
+)
+ident(
+  def string_of_eVML "ePL.ml" 61 1449 1449 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 44 1077 1096 "ePL.ml" 44 1077 1097
+type(
+  eVML_inst
+)
+ident(
+  def x "ePL.ml" 45 1100 1102 "ePL.ml" 59 1427 1447
+)
+"ePL.ml" 45 1100 1108 "ePL.ml" 45 1100 1109
+type(
+  eVML_inst
+)
+ident(
+  int_ref x "ePL.ml" 44 1077 1096 "ePL.ml" 44 1077 1097
+)
+"ePL.ml" 46 1115 1126 "ePL.ml" 46 1115 1127
+type(
+  int
+)
+ident(
+  def i "ePL.ml" 46 1115 1131 "ePL.ml" 46 1115 1156
+)
+"ePL.ml" 46 1115 1121 "ePL.ml" 46 1115 1127
+type(
+  eVML_inst
+)
+"ePL.ml" 46 1115 1131 "ePL.ml" 46 1115 1138
+type(
+  string
+)
+"ePL.ml" 46 1115 1138 "ePL.ml" 46 1115 1139
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 46 1115 1140 "ePL.ml" 46 1115 1153
+type(
+  int -> string
+)
+ident(
+  ext_ref Pervasives.string_of_int
+)
+"ePL.ml" 46 1115 1154 "ePL.ml" 46 1115 1155
+type(
+  int
+)
+ident(
+  int_ref i "ePL.ml" 46 1115 1126 "ePL.ml" 46 1115 1127
+)
+"ePL.ml" 46 1115 1139 "ePL.ml" 46 1115 1156
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 46 1115 1131 "ePL.ml" 46 1115 1156
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 47 1157 1168 "ePL.ml" 47 1157 1169
+type(
+  int
+)
+ident(
+  def b "ePL.ml" 47 1157 1173 "ePL.ml" 47 1157 1213
+)
+"ePL.ml" 47 1157 1163 "ePL.ml" 47 1157 1169
+type(
+  eVML_inst
+)
+"ePL.ml" 47 1157 1173 "ePL.ml" 47 1157 1180
+type(
+  string
+)
+"ePL.ml" 47 1157 1180 "ePL.ml" 47 1157 1181
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 47 1157 1182 "ePL.ml" 47 1157 1196
+type(
+  bool -> string
+)
+ident(
+  ext_ref Pervasives.string_of_bool
+)
+"ePL.ml" 47 1157 1198 "ePL.ml" 47 1157 1209
+type(
+  int -> bool
+)
+ident(
+  int_ref decode_bool "ePL.ml" 39 1007 1011 "ePL.ml" 39 1007 1022
+)
+"ePL.ml" 47 1157 1210 "ePL.ml" 47 1157 1211
+type(
+  int
+)
+ident(
+  int_ref b "ePL.ml" 47 1157 1168 "ePL.ml" 47 1157 1169
+)
+"ePL.ml" 47 1157 1197 "ePL.ml" 47 1157 1212
+call(
+  stack
+)
+type(
+  bool
+)
+"ePL.ml" 47 1157 1181 "ePL.ml" 47 1157 1213
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 47 1157 1173 "ePL.ml" 47 1157 1213
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 48 1214 1220 "ePL.ml" 48 1214 1224
+type(
+  eVML_inst
+)
+"ePL.ml" 48 1214 1228 "ePL.ml" 48 1214 1234
+type(
+  string
+)
+"ePL.ml" 49 1235 1241 "ePL.ml" 49 1235 1246
+type(
+  eVML_inst
+)
+"ePL.ml" 49 1235 1250 "ePL.ml" 49 1235 1257
+type(
+  string
+)
+"ePL.ml" 50 1258 1264 "ePL.ml" 50 1258 1269
+type(
+  eVML_inst
+)
+"ePL.ml" 50 1258 1273 "ePL.ml" 50 1258 1280
+type(
+  string
+)
+"ePL.ml" 51 1281 1287 "ePL.ml" 51 1281 1290
+type(
+  eVML_inst
+)
+"ePL.ml" 51 1281 1294 "ePL.ml" 51 1281 1299
+type(
+  string
+)
+"ePL.ml" 52 1300 1306 "ePL.ml" 52 1300 1309
+type(
+  eVML_inst
+)
+"ePL.ml" 52 1300 1313 "ePL.ml" 52 1300 1318
+type(
+  string
+)
+"ePL.ml" 53 1319 1325 "ePL.ml" 53 1319 1328
+type(
+  eVML_inst
+)
+"ePL.ml" 53 1319 1332 "ePL.ml" 53 1319 1337
+type(
+  string
+)
+"ePL.ml" 54 1338 1344 "ePL.ml" 54 1338 1347
+type(
+  eVML_inst
+)
+"ePL.ml" 54 1338 1351 "ePL.ml" 54 1338 1356
+type(
+  string
+)
+"ePL.ml" 55 1357 1363 "ePL.ml" 55 1357 1365
+type(
+  eVML_inst
+)
+"ePL.ml" 55 1357 1369 "ePL.ml" 55 1357 1373
+type(
+  string
+)
+"ePL.ml" 56 1374 1380 "ePL.ml" 56 1374 1382
+type(
+  eVML_inst
+)
+"ePL.ml" 56 1374 1386 "ePL.ml" 56 1374 1390
+type(
+  string
+)
+"ePL.ml" 57 1391 1397 "ePL.ml" 57 1391 1399
+type(
+  eVML_inst
+)
+"ePL.ml" 57 1391 1404 "ePL.ml" 57 1391 1408
+type(
+  string
+)
+"ePL.ml" 58 1409 1415 "ePL.ml" 58 1409 1417
+type(
+  eVML_inst
+)
+"ePL.ml" 58 1409 1422 "ePL.ml" 58 1409 1426
+type(
+  string
+)
+"ePL.ml" 59 1427 1433 "ePL.ml" 59 1427 1437
+type(
+  eVML_inst
+)
+"ePL.ml" 59 1427 1441 "ePL.ml" 59 1427 1447
+type(
+  string
+)
+"ePL.ml" 45 1100 1102 "ePL.ml" 59 1427 1447
+type(
+  string
+)
+"ePL.ml" 61 1449 1453 "ePL.ml" 61 1449 1459
+type(
+  string -> ('a -> string) -> 'a list -> string
+)
+ident(
+  def pr_lst "ePL.ml" 62 1501 1501 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 61 1449 1460 "ePL.ml" 61 1449 1461
+type(
+  string
+)
+ident(
+  def s "ePL.ml" 61 1449 1462 "ePL.ml" 61 1449 1500
+)
+"ePL.ml" 61 1449 1462 "ePL.ml" 61 1449 1463
+type(
+  'a -> string
+)
+ident(
+  def f "ePL.ml" 61 1449 1464 "ePL.ml" 61 1449 1500
+)
+"ePL.ml" 61 1449 1464 "ePL.ml" 61 1449 1466
+type(
+  'a list
+)
+ident(
+  def xs "ePL.ml" 61 1449 1469 "ePL.ml" 61 1449 1500
+)
+"ePL.ml" 61 1449 1469 "ePL.ml" 61 1449 1482
+type(
+  string -> string list -> string
+)
+ident(
+  ext_ref String.concat
+)
+"ePL.ml" 61 1449 1483 "ePL.ml" 61 1449 1484
+type(
+  string
+)
+ident(
+  int_ref s "ePL.ml" 61 1449 1460 "ePL.ml" 61 1449 1461
+)
+"ePL.ml" 61 1449 1486 "ePL.ml" 61 1449 1494
+type(
+  ('a -> string) -> 'a list -> string list
+)
+ident(
+  ext_ref List.map
+)
+"ePL.ml" 61 1449 1495 "ePL.ml" 61 1449 1496
+type(
+  'a -> string
+)
+ident(
+  int_ref f "ePL.ml" 61 1449 1462 "ePL.ml" 61 1449 1463
+)
+"ePL.ml" 61 1449 1497 "ePL.ml" 61 1449 1499
+type(
+  'a list
+)
+ident(
+  int_ref xs "ePL.ml" 61 1449 1464 "ePL.ml" 61 1449 1466
+)
+"ePL.ml" 61 1449 1485 "ePL.ml" 61 1449 1500
+call(
+  stack
+)
+type(
+  string list
+)
+"ePL.ml" 61 1449 1469 "ePL.ml" 61 1449 1500
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 62 1501 1505 "ePL.ml" 62 1501 1516
+type(
+  string -> string -> ('a -> string) -> 'a list -> string
+)
+ident(
+  def pr_list_brk "ePL.ml" 63 1574 1574 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 62 1501 1517 "ePL.ml" 62 1501 1523
+type(
+  string
+)
+ident(
+  def open_b "ePL.ml" 62 1501 1524 "ePL.ml" 62 1501 1573
+)
+"ePL.ml" 62 1501 1524 "ePL.ml" 62 1501 1531
+type(
+  string
+)
+ident(
+  def close_b "ePL.ml" 62 1501 1532 "ePL.ml" 62 1501 1573
+)
+"ePL.ml" 62 1501 1532 "ePL.ml" 62 1501 1533
+type(
+  'a -> string
+)
+ident(
+  def f "ePL.ml" 62 1501 1534 "ePL.ml" 62 1501 1573
+)
+"ePL.ml" 62 1501 1534 "ePL.ml" 62 1501 1536
+type(
+  'a list
+)
+ident(
+  def xs "ePL.ml" 62 1501 1540 "ePL.ml" 62 1501 1573
+)
+"ePL.ml" 62 1501 1540 "ePL.ml" 62 1501 1546
+type(
+  string
+)
+ident(
+  int_ref open_b "ePL.ml" 62 1501 1517 "ePL.ml" 62 1501 1523
+)
+"ePL.ml" 62 1501 1547 "ePL.ml" 62 1501 1548
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 62 1501 1549 "ePL.ml" 62 1501 1555
+type(
+  string -> ('a -> string) -> 'a list -> string
+)
+ident(
+  int_ref pr_lst "ePL.ml" 61 1449 1453 "ePL.ml" 61 1449 1459
+)
+"ePL.ml" 62 1501 1556 "ePL.ml" 62 1501 1559
+type(
+  string
+)
+"ePL.ml" 62 1501 1560 "ePL.ml" 62 1501 1561
+type(
+  'a -> string
+)
+ident(
+  int_ref f "ePL.ml" 62 1501 1532 "ePL.ml" 62 1501 1533
+)
+"ePL.ml" 62 1501 1562 "ePL.ml" 62 1501 1564
+type(
+  'a list
+)
+ident(
+  int_ref xs "ePL.ml" 62 1501 1534 "ePL.ml" 62 1501 1536
+)
+"ePL.ml" 62 1501 1548 "ePL.ml" 62 1501 1565
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 62 1501 1565 "ePL.ml" 62 1501 1566
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"ePL.ml" 62 1501 1566 "ePL.ml" 62 1501 1573
+type(
+  string
+)
+ident(
+  int_ref close_b "ePL.ml" 62 1501 1524 "ePL.ml" 62 1501 1531
+)
+"ePL.ml" 62 1501 1548 "ePL.ml" 62 1501 1573
+call(
+  stack
+)
+type(
+  string
+)
+"ePL.ml" 62 1501 1540 "ePL.ml" 62 1501 1573
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 63 1574 1578 "ePL.ml" 63 1574 1585
+type(
+  ('a -> string) -> 'a list -> string
+)
+ident(
+  def pr_list "ePL.ml" 66 1662 1662 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 63 1574 1586 "ePL.ml" 63 1574 1587
+type(
+  'a -> string
+)
+ident(
+  def f "ePL.ml" 63 1574 1588 "ePL.ml" 63 1574 1617
+)
+"ePL.ml" 63 1574 1588 "ePL.ml" 63 1574 1590
+type(
+  'a list
+)
+ident(
+  def xs "ePL.ml" 63 1574 1593 "ePL.ml" 63 1574 1617
+)
+"ePL.ml" 63 1574 1593 "ePL.ml" 63 1574 1604
+type(
+  string -> string -> ('a -> string) -> 'a list -> string
+)
+ident(
+  int_ref pr_list_brk "ePL.ml" 62 1501 1505 "ePL.ml" 62 1501 1516
+)
+"ePL.ml" 63 1574 1605 "ePL.ml" 63 1574 1608
+type(
+  string
+)
+"ePL.ml" 63 1574 1609 "ePL.ml" 63 1574 1612
+type(
+  string
+)
+"ePL.ml" 63 1574 1613 "ePL.ml" 63 1574 1614
+type(
+  'a -> string
+)
+ident(
+  int_ref f "ePL.ml" 63 1574 1586 "ePL.ml" 63 1574 1587
+)
+"ePL.ml" 63 1574 1615 "ePL.ml" 63 1574 1617
+type(
+  'a list
+)
+ident(
+  int_ref xs "ePL.ml" 63 1574 1588 "ePL.ml" 63 1574 1590
+)
+"ePL.ml" 63 1574 1593 "ePL.ml" 63 1574 1617
+call(
+  tail
+)
+type(
+  string
+)
+"ePL.ml" 66 1662 1666 "ePL.ml" 66 1662 1685
+type(
+  eVML_inst list -> string
+)
+ident(
+  def string_of_eVML_list "ePL.ml" 67 1708 1735 "ePL.ml" 1 0 -1
+)
+"ePL.ml" 66 1662 1687 "ePL.ml" 66 1662 1689
+type(
+  eVML_inst list
+)
+ident(
+  def xs "ePL.ml" 67 1708 1710 "ePL.ml" 67 1708 1735
+)
+"ePL.ml" 67 1708 1710 "ePL.ml" 67 1708 1717
+type(
+  (eVML_inst -> string) -> eVML_inst list -> string
+)
+ident(
+  int_ref pr_list "ePL.ml" 63 1574 1578 "ePL.ml" 63 1574 1585
+)
+"ePL.ml" 67 1708 1718 "ePL.ml" 67 1708 1732
+type(
+  eVML_inst -> string
+)
+ident(
+  int_ref string_of_eVML "ePL.ml" 44 1077 1081 "ePL.ml" 44 1077 1095
+)
+"ePL.ml" 67 1708 1733 "ePL.ml" 67 1708 1735
+type(
+  eVML_inst list
+)
+ident(
+  int_ref xs "ePL.ml" 66 1662 1687 "ePL.ml" 66 1662 1689
+)
+"ePL.ml" 67 1708 1710 "ePL.ml" 67 1708 1735
+call(
+  tail
+)
+type(
+  string
+)
