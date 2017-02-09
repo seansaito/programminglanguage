@@ -2,7 +2,7 @@ open EPL
 
 (* use primitive rule to contract op[v1,v2] or op[v] to a value *)
 (* raise an exception if we cannot directly contract *)
-let rec contract (e:ePL_expr): ePL_expr = 
+let rec contract (e:ePL_expr): ePL_expr =
   match e with
     | BoolConst _ | IntConst _ -> e
     | UnaryPrimApp (op,arg) ->
@@ -18,6 +18,8 @@ let rec contract (e:ePL_expr): ePL_expr =
                   (* please complete *)
                   begin
                   match arg with
+                    | BoolConst true -> BoolConst false
+                    | BoolConst false -> BoolConst true
                     | _ -> failwith ("unable to contract for "^(string_of_ePL e))
                   end
             | _ -> failwith ("illegal unary op "^op)
@@ -53,18 +55,21 @@ let rec contract (e:ePL_expr): ePL_expr =
                   begin
                   (* please complete *)
                   match arg1,arg2 with
+                    | BoolConst v1,BoolConst v2 -> BoolConst (v1||v2)
                     | _,_ -> failwith ("unable to contract"^(string_of_ePL e))
                   end
             | "&" ->
                   begin
                   (* please complete *)
                   match arg1,arg2 with
+                    | BoolConst v1,BoolConst v2 -> BoolConst (v1&&v2)
                     | _,_ -> failwith ("unable to contract"^(string_of_ePL e))
                   end
             | "<" ->
                   (* please complete *)
                   begin
                   match arg1,arg2 with
+                    | IntConst v1,IntConst v2 -> BoolConst (v1<v2)
                     | _,_ -> failwith ("unable to contract"^(string_of_ePL e))
                   end
             | ">" ->
@@ -79,6 +84,7 @@ let rec contract (e:ePL_expr): ePL_expr =
                   begin
                   match arg1,arg2 with
                     | IntConst v1,IntConst v2 -> BoolConst (v1=v2)
+                    | BoolConst v1,BoolConst v2 -> BoolConst (v1=v2)
                     | _,_ -> failwith ("unable to contract"^(string_of_ePL e))
                   end
             | _ -> failwith ("illegal binary op "^op)
@@ -86,23 +92,23 @@ let rec contract (e:ePL_expr): ePL_expr =
 
 
 (* check if an expression is reducible or irreducible *)
-let reducible (e:ePL_expr) : bool = 
+let reducible (e:ePL_expr) : bool =
   match e with
     | BoolConst _ | IntConst _ -> false
     | UnaryPrimApp _ | BinaryPrimApp _ -> true
 
 (* if expr is irreducible, returns it *)
 (* otherwise, perform a one-step reduction *)
-let rec oneStep (e:ePL_expr): ePL_expr = 
+let rec oneStep (e:ePL_expr): ePL_expr =
   match e with
     | BoolConst _ | IntConst _ ->  e
     | UnaryPrimApp (op,arg) ->
           if reducible arg then UnaryPrimApp(op,oneStep arg)
           else contract e
-    | BinaryPrimApp (op,arg1,arg2) -> 
-         if reducible arg1 
+    | BinaryPrimApp (op,arg1,arg2) ->
+         if reducible arg1
           then BinaryPrimApp(op,oneStep arg1,arg2)
-          else 
+          else
             if reducible arg2
             then BinaryPrimApp(op,arg1,oneStep arg2)
             else contract e
@@ -110,43 +116,43 @@ let rec oneStep (e:ePL_expr): ePL_expr =
 
 (* keep reducing until we get a irreducible expr *)
 (* or has an exception due to wrong operator or type error *)
-let rec evaluate (e:ePL_expr): ePL_expr = 
+let rec evaluate (e:ePL_expr): ePL_expr =
   if (reducible e) then evaluate (oneStep e)
   else e
 
 
 (* sample expr in AST form *)
 let e1 = IntConst 42
-let e2 = 
+let e2 =
   BinaryPrimApp ("+",
     BinaryPrimApp("*",
       UnaryPrimApp("~",IntConst 15),
       IntConst 7),
     IntConst 2)
-let e2a = 
+let e2a =
   BinaryPrimApp (">",IntConst 7,IntConst 10)
-let e2b = 
+let e2b =
   BinaryPrimApp ("=",
     IntConst 10,
     BinaryPrimApp("+",IntConst 3,IntConst 7))
 
-let e3 = 
+let e3 =
   BinaryPrimApp ("|",
     BinaryPrimApp("&",
       UnaryPrimApp("\\",BoolConst false),
       BoolConst true),
     BoolConst true)
-let e4 = 
+let e4 =
   BinaryPrimApp ("+",IntConst 15,BoolConst true)
-let e5 = 
+let e5 =
   BinaryPrimApp ("!",IntConst 15,BoolConst true)
-let e5 = 
+let e5 =
   BinaryPrimApp (">",BoolConst false,BoolConst true)
-let e6 = 
+let e6 =
   BinaryPrimApp ("*",
      BinaryPrimApp ("+",IntConst 1,IntConst 2),
      IntConst 3)
-let e7 = 
+let e7 =
   BinaryPrimApp ("+",
      IntConst 1,
      BinaryPrimApp ("*",IntConst 2,IntConst 3))
@@ -160,29 +166,33 @@ let rec type_check (e:ePL_expr) (t:ePL_type) : bool =
           (* please complete *)
           begin
           match op,t with
-            | "~",IntType 
+            | "~",IntType
                   -> type_check arg IntType
-            | "\\",BoolType 
-                  -> failwith "to be completed"
-            | _,_ 
+            | "\\",BoolType
+                  -> type_check arg BoolType
+                  (* -> failwith "to be completed" *)
+            | _,_
                   -> false
           end
     | BinaryPrimApp (op,arg1,arg2), _ ->
           begin
           match op,t with
-            | "+",IntType | "-",IntType | "*",IntType | "/",IntType 
+            | "+",IntType | "-",IntType | "*",IntType | "/",IntType
                   -> (type_check arg1 IntType) && (type_check arg2 IntType)
-            | "<",BoolType | ">",BoolType 
-                  -> failwith "to be completed"
-            | "=",BoolType 
-                  -> failwith "to be completed"
-            | "|",BoolType | "&",BoolType 
-                  -> failwith "to be completed"
+            | "<",BoolType | ">",BoolType
+                  -> (type_check arg1 IntType) && (type_check arg2 IntType)
+                  (* -> failwith "to be completed" *)
+            | "=",BoolType
+                  -> ((type_check arg1 IntType) && (type_check arg2 IntType)) || ((type_check arg1 BoolType) && (type_check arg2 BoolType))
+                  (* -> failwith "to be completed" *)
+            | "|",BoolType | "&",BoolType
+                  -> (type_check arg1 BoolType) && (type_check arg2 BoolType)
+                  (* -> failwith "to be completed" *)
             | _,_ -> false
           end
     | _, _ -> false
 
-(* type inference, note that None is returned 
+(* type inference, note that None is returned
    if no suitable type is inferred *)
 let type_infer (e:ePL_expr) : ePL_type option =
   match e with
@@ -191,26 +201,37 @@ let type_infer (e:ePL_expr) : ePL_type option =
     | UnaryPrimApp (op,arg) ->
           begin
           match op with
-            | "~" -> 
+            | "~" ->
                   if (type_check arg IntType) then Some IntType
                   else None
             | "\\" ->
-                  failwith "to be completed"
+                  if (type_check arg BoolType) then Some BoolType
+                  else None
+                  (* failwith "to be completed" *)
             | _ -> None
           end
     | BinaryPrimApp (op,arg1,arg2) ->
           begin
           match op with
-            | "-" | "+" | "*" | "/"  -> 
-                  if (type_check arg1 IntType) && (type_check arg2 IntType) 
+            | "-" | "+" | "*" | "/"  ->
+                  if (type_check arg1 IntType) && (type_check arg2 IntType)
                   then Some IntType
                   else None
             | "<" | ">" ->
-                  failwith "to be completed"
+                  if (type_check arg1 IntType) && (type_check arg2 IntType)
+                  then Some BoolType
+                  else None
+                  (* failwith "to be completed" *)
             | "=" ->
-                  failwith "to be completed"
+                  if ((type_check arg1 IntType) && (type_check arg2 IntType)) || ((type_check arg1 BoolType) && (type_check arg2 BoolType))
+                  then Some BoolType
+                  else None
+                  (* failwith "to be completed" *)
             | "&" | "|" ->
-                  failwith "to be completed"
+                  if (type_check arg1 BoolType) && (type_check arg2 BoolType)
+                  then Some BoolType
+                  else None
+                  (* failwith "to be completed" *)
             | _ -> None
           end
 
@@ -224,53 +245,53 @@ let testCommand e =
 let testType e =
   (* let s = (string_of_ePL e) in *)
   let v = type_infer e in
-  match v with 
+  match v with
     | Some t -> print_endline ("  inferred type : "^(string_of_ePL_type t));
     | None -> print_endline ("  type error ")
 
-(* let _ = testCommand e2  *)
-(* let _ = testCommand e2a  *)
-(* let _ = testCommand e2b  *)
-(* let _ = testCommand e3 *)
+(* let _ = testCommand e2
+let _ = testCommand e2a
+let _ = testCommand e2b
+let _ = testCommand e3
 
-(* let _ = testType e1 *)
-(* let _ = testType e2 *)
-(* let _ = testType e2a  *)
-(* let _ = testType e2b  *)
-(* let _ = testType e3 *)
-(* let _ = testType e4 *)
-(* let _ = testType e5 *)
+let _ = testType e1
+let _ = testType e2
+let _ = testType e2a
+let _ = testType e2b
+let _ = testType e3
+let _ = testType e4
+let _ = testType e5
 
-(* let _ = testType e6 *)
-(* let _ = testCommand e6 *)
-(* let _ = testType e7 *)
-(* let _ = testCommand e7 *)
-(* let _ = testType e4 *)
-(* let _ = testCommand e4 *)
+let _ = testType e6
+let _ = testCommand e6
+let _ = testType e7
+let _ = testCommand e7
+let _ = testType e4
+let _ = testCommand e4 *)
 
 (* calling ePL parser *)
 let parse_file (filename:string) : (string * ePL_expr) =
   EPL_parser.parse_file filename
- 
+
 (* set up for command argument
    using Sys and Arg modules *)
 let usage = "usage: " ^ Sys.argv.(0) ^ " <filename>"
-let file = ref "" 
+let file = ref ""
 
 
 let testType2 e =
   (* let s = (string_of_ePL e) in *)
   let v = type_infer e in
-  (match v with 
+  (match v with
     | Some t -> print_endline ("  inferred type : "^(string_of_ePL_type t));
     | None -> print_endline ("  type error!! "));v
 
 (* main program *)
 let main =
   (* Read the arguments of command *)
-  Arg.parse [] (fun s -> file := s) usage; 
-  if String.length !file == 0 then print_endline usage 
-  else 
+  Arg.parse [] (fun s -> file := s) usage;
+  if String.length !file == 0 then print_endline usage
+  else
     let _ = print_endline "Loading ePL program .." in
     let (s,p) = parse_file !file in
     let _ = print_endline ("  "^s) in
