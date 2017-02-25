@@ -21,7 +21,7 @@ let option_flag = [
   (*  "Shorthand for -debug-regexp") *)
 ]@command_args
 
-let _ = Debug.parse option_flag 
+let _ = Debug.parse option_flag
 
 (* if (v,r) in env, return Some r *)
 (* otherwise, return None *)
@@ -29,7 +29,7 @@ let get_type env v = Environ.get_val env v
 
 (* match a function type t with its parameters args *)
 (* and return its residual *)
-(* extr_arg_type (t1->t2->t3->t4) [e1,e2] 
+(* extr_arg_type (t1->t2->t3->t4) [e1,e2]
    ==> Some ([(e1,t1);(e2,t2)], t3->t4) *)
 (* match a function type t with its parameters args *)
 (* and return its residual *)
@@ -39,8 +39,10 @@ let extr_arg_type (t:sPL_type) (args:'a list) : (('a * sPL_type) list * sPL_type
   let rec aux env t args =
     match args,t with
       | [],_ -> Some (env,t)
-      | v::vs,Arrow (t1,t2) -> aux ((v,t1)::env) t2 vs
+      (* | v::vs,Arrow (t1,t2) -> aux ((v,t1)::env) t2 vs *)
+      | v::vs, Arrow(t1, t2) -> aux (env @ [(v, t1)]) t2 vs
       | _,_ -> None
+      (* | [a], b -> Some(env @ [(a, b)], None) *)
   in aux [] t args
 
 let extr_arg_type_test (t:sPL_type) (args:int list) : ((int * sPL_type) list * sPL_type) option =
@@ -53,10 +55,10 @@ let extr_arg_type_test (t:sPL_type) (args:int list) : ((int * sPL_type) list * s
 (* test harness below to debug extr_arg_type *)
 (* please comment them after fixing bug *)
 (* let () = y_binfo_pp "Testing extr_arg_type_test\n";; *)
-let t1 = Arrow (IntType,Arrow (BoolType,IntType))
+(* let t1 = Arrow (IntType,Arrow (BoolType,IntType))
 let _ = x_add extr_arg_type_test t1 [1]
 let _ = x_add extr_arg_type_test t1 [1;2]
-let _ = x_add extr_arg_type_test t1 [1;2;3]
+let _ = x_add extr_arg_type_test t1 [1;2;3] *)
 
 (* type checking method *)
 (* you may use this method to check that the your inferred *)
@@ -64,9 +66,9 @@ let _ = x_add extr_arg_type_test t1 [1;2;3]
 let type_check (env:env_type) (e:sPL_expr) (t:sPL_type) : bool =
   let rec aux env e t =
     match e with
-      | IntConst _ -> 
+      | IntConst _ ->
             if t=IntType then true else false
-      | BoolConst _ -> 
+      | BoolConst _ ->
             if t=BoolType then true else false
       | Var v ->
             (match get_type env v with
@@ -76,21 +78,21 @@ let type_check (env:env_type) (e:sPL_expr) (t:sPL_type) : bool =
       | UnaryPrimApp (op,arg) ->
             begin
               match op,t with
-                | "~",IntType 
+                | "~",IntType
                       -> aux env arg IntType
-                | "\\",BoolType 
+                | "\\",BoolType
                       -> aux env arg BoolType
-                | _,_ 
+                | _,_
                       -> false
             end
       | BinaryPrimApp (op,arg1,arg2) ->
             begin
               match op,t with
-                | "+",IntType | "-",IntType | "*",IntType | "/",IntType 
+                | "+",IntType | "-",IntType | "*",IntType | "/",IntType
                       -> (aux env arg1 IntType) && (aux env arg2 IntType)
-                | "<",BoolType | ">",BoolType | "=",BoolType 
+                | "<",BoolType | ">",BoolType | "=",BoolType
                       -> (aux env arg1 IntType) && (aux env arg2 IntType)
-                | "|",BoolType | "&",BoolType 
+                | "|",BoolType | "&",BoolType
                       -> (aux env arg1 BoolType) && (aux env arg2 BoolType)
                 | _,_ -> false
             end
@@ -180,26 +182,88 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
     | Cond (e1,e2,e3) ->
           (* e1 must be bool type *)
           (* e2,e3 must be of the same inferred type *)
-          failwith x_tbi
+          (* failwith x_tbi *)
+          begin
+            if type_check env e1 BoolType then
+              (* body *)
+              let (at1, na1) = type_infer_x env e2 in
+              let (at2, na2) = type_infer_x env e3 in
+                if at1=at2 then
+                  (at2, Cond(e1, na1, na2))
+                else
+                  (None, e)
+            else
+              (None, e)
+          end
     | Func (te,args,body) ->
           (* te is the inferred function type *)
           (* infer the types of args and body *)
           (* args and body type must be consistent with te *)
           (* extend the env when checking type of body *)
-          failwith x_tbi
-    | RecFunc (te,id,args,body) -> 
+          (* failwith x_tbi *)
+          begin
+            (* Get the extracted argument types *)
+            let extr = extr_arg_type te args in
+              match extr with
+                | Some (args_env, return_type) ->
+                    let (at1, na1) = type_infer_x (env@args_env) body in
+                      (Some te, Func(te, args, na1))
+                        (* print_endline "This ran";
+                        if type_check (env@args_env) na1 return_type then
+                          (Some te, Func(te, args, na1))
+                        else (None, e) *)
+                | None -> (None, e)
+
+          end
+
+    | RecFunc (te,id,args,body) ->
           (* te is the inferred function type *)
           (* infer the types of args and body *)
           (* args and body type must be consistent with te*)
           (* extend the env when checking type of body *)
-          failwith x_tbi
+          (* failwith x_tbi *)
+          begin
+            let extr = extr_arg_type te args in
+              match extr with
+                | Some (args_env, return_type) ->
+                  let (at1, na1) = type_infer_x (env@args_env) body in
+                  (Some te, RecFunc(te, id, args, na1))
+                    (* if type_check (env@args_env) na1 return_type then
+                      (Some te, RecFunc(te, id, args, na1))
+                    else (None, e) *)
+                | None -> (None, e)
+          end
     | Appln (e1,_,args) ->
           (* infer the type of e1 first *)
           (* infer the types of args *)
           (* check that args are consistent with inferred type *)
           (* remember to update _ with inferred type of e1 *)
-          failwith x_tbi
-    | Let (ldecl,te,body) -> 
+          (* failwith x_tbi *)
+          begin
+            match type_infer_x env e1 with
+              | (Some at1, na1) ->
+                begin
+                let extr = extr_arg_type at1 args in
+                  match extr with
+                    | Some (args_env, return_type) ->
+                      let args_expanded = List.map (fun a -> match type_infer_x env a with
+                              | (Some a', n') -> n' | _ -> a) args in
+                      (Some return_type, Appln(e1, Some at1, args_expanded))
+                    | None _ -> (None, e)
+                    | _ -> (None, e)
+                    (* let rec aux env =
+                      match env with
+                        | [] -> true
+                        | (expr, type_)::t ->
+                          if type_check env expr type_ then
+                            aux t else false
+                    in if aux args_env then
+                      (Some return_type, Appln(e1, Some at1, args))
+                    else (None, e) *)
+                end
+              | _ -> (None, e)
+          end
+    | Let (ldecl,te,body) ->
           (* the implementation for Let is given *)
           (* pick the type of local vars from ldecl *)
           let env2 = List.map (fun (t,v,b) -> (v,t)) ldecl in
@@ -212,9 +276,9 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
           (* why did we use env rather than nenv when checking ldecl? *)
           begin
             match nt1 with
-              | Some t1 -> 
+              | Some t1 ->
                     (* check that body type is consistent *)
-                    if t1=te then 
+                    if t1=te then
                       (* check that local declarations are typed consistently *)
                       if List.for_all (fun ((t,e),_,t2) -> t=Some t2) ls_res then
                         (nt1, Let(List.map (fun ((_,e),v,t)->(t,v,e)) ls_res,te,nbody))
@@ -224,7 +288,7 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
           end
 
 let rec type_infer (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
-  Debug.no_1 "type_infer" pr_none pr_none (fun _ -> type_infer_x env e) e 
+  Debug.no_1 "type_infer" pr_none pr_none (fun _ -> type_infer_x env e) e
 
 (* number of arguments for full application *)
 (* Ex: num_of_arg (int->(int->int)->int) ==> 2 *)
@@ -242,7 +306,7 @@ let get_partial (t:sPL_type) (args:'b list) =
   else
   match extr_arg_type t args with
     | None -> None
-    | Some (ls,rt) -> 
+    | Some (ls,rt) ->
           let narg = num_of_arg rt in
           if narg=0 then None
             else Some (rt,(names # fresh_strs "_pa_var" narg))
@@ -254,9 +318,9 @@ let rec build_type ls bt =
     | (t,_,_)::ls -> Arrow(t,build_type ls bt)
 
 
-(* 
-   preprocessing to remove 
-    (i) partial application 
+(*
+   preprocessing to remove
+    (i) partial application
     (ii) let construct
    S.sPL_expr --> C.sPL_expr
 *)
@@ -299,9 +363,39 @@ let trans_exp (e:sPL_expr) : C.sPL_expr  =
       end
     | Let (ls,t,body) ->
       (* transform Let into a function application *)
-      (* build a correct type for the function from *) 
+      (* build a correct type for the function from *)
       (* the type of arguments (local vars) and body *)
-      failwith x_tbi
+      (* failwith x_tbi *)
+      (* TODO *)
+      begin
+        (* let (nt1, nbody) = type_infer_x [] body in
+          begin *)
+        let f = aux body in
+          let args = List.map (fun (t,v,b) -> aux b) ls in
+          match get_partial t args with
+            | None -> C.Appln(f, t, args)
+            | Some (t2, ns) -> C.Func(t2, ns, C.Appln(f, t, args))
+          (* end *)
+
+        (* match type_infer_x [] body with
+          | (Some nt1, nbody) ->
+            begin
+              let f = aux body in
+                C.Appln(f, t, List.map(fun (t,v, b) -> aux b) ls)
+            end
+          | _ -> failwith "something wrong?" *)
+      end
+
+      (*
+      begin
+        match t with
+          | t1 ->
+              let env = List.map (fun (t, v, b) -> (v, t)) ls in
+                let (nt1, nbody) = type_infer_x env body in
+                  let ls_res = List.map(fun (t,v,b) -> (type_infer_x env b, v, t)) ls in
+                    C.Let(List.map (fun ((_, e), v, t) -> (t, v, e)) ls_res, t1, nbody)
+          | _ -> failwith "Missing type : not possible"
+      end *)
   in aux e
 
 (* calling sPL parser *)
@@ -316,19 +410,19 @@ let trans_exp (e:sPL_expr) : C.sPL_expr  =
 
 (* Extra Assignment for 10% Bonus *)
 (*
-    Currently types are given at the following 
+    Currently types are given at the following
     places (or features):
      (i) body of let
      (ii) local definitions of let
      (iii) function definition
      (iv) recursive function definition
     The extra assignment requires you to make their
-    type declaration optional. I suggest you do them 
+    type declaration optional. I suggest you do them
     gradually, starting with (i), then (ii) etc.
     You must do the following for each:
      (a) change the corresponding type of each
-         feature to option type in sPL.ml 
-     (b) change parser to make the type declaration 
+         feature to option type in sPL.ml
+     (b) change parser to make the type declaration
           optional for those features
      (c) change type_infer to infer types when not given
      (d) core language in sPLc.ml must have fully inferred type.

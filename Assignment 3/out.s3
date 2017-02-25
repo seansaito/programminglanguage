@@ -1,0 +1,7 @@
+LOADING sPL program ..
+  (2 * 2) + 4
+ AS ==> +[*[Int(2),Int(2)],Int(4)]
+TYPE CHECKING program ..
+Debug message: +[*[Int(2),Int(2)],Int(4)]
+ ==> inferred type Int
+TRANSFORMING ==> +[*[Int(2),Int(2)],Int(4)]
