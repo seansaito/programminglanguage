@@ -17,7 +17,7 @@ let main =
     let _ = print_endline (" AS ==> "^(S.string_of_sPL p)) in
     let _ = print_endline "TYPE CHECKING program .." in
     let (v,np) = type_infer [] p in
-    print_endline ("Debug message: "^(S.string_of_sPL np));
+    (* print_endline ("Debug message: "^(S.string_of_sPL np)); *)
     match v with
       | None -> print_endline " ==> type error detected"
       | Some t ->

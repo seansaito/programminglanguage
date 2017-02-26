@@ -38,9 +38,9 @@ let get_type env v = Environ.get_val env v
 let extr_arg_type (t:sPL_type) (args:'a list) : (('a * sPL_type) list * sPL_type) option =
   let rec aux env t args =
     match args,t with
-      | [],_ -> Some (env,t)
-      (* | v::vs,Arrow (t1,t2) -> aux ((v,t1)::env) t2 vs *)
-      | v::vs, Arrow(t1, t2) -> aux (env @ [(v, t1)]) t2 vs
+      | [],_ -> Some (List.rev env,t)
+      | v::vs,Arrow (t1,t2) -> aux ((v,t1)::env) t2 vs
+      (* | v::vs, Arrow(t1, t2) -> aux (env @ [(v, t1)]) t2 vs *)
       | _,_ -> None
       (* | [a], b -> Some(env @ [(a, b)], None) *)
   in aux [] t args
@@ -184,14 +184,22 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
           (* e2,e3 must be of the same inferred type *)
           (* failwith x_tbi *)
           begin
+
             if type_check env e1 BoolType then
               (* body *)
-              let (at1, na1) = type_infer_x env e2 in
-              let (at2, na2) = type_infer_x env e3 in
-                if at1=at2 then
+              let (at1, na1) = type_infer_x env e1 in
+              let (at2, na2) = type_infer_x env e2 in
+              let (at3, na3) = type_infer_x env e3 in
+                begin match at2, at3 with
+                  | Some at2', Some at3' ->
+                      if at2' = at3' then (at2, Cond(na1, na2, na3))
+                      else (None, e)
+                  | _,_ -> (None, e)
+                (* if at=at2 then
                   (at2, Cond(e1, na1, na2))
                 else
-                  (None, e)
+                  (None, e) *)
+                end
             else
               (None, e)
           end
@@ -206,8 +214,15 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
             let extr = extr_arg_type te args in
               match extr with
                 | Some (args_env, return_type) ->
-                    let (at1, na1) = type_infer_x (env@args_env) body in
-                      (Some te, Func(te, args, na1))
+                  begin
+                    let (at1, na1) = type_infer_x (args_env@env) body in
+                    (* let (at1, na1) = type_infer_x (Environ.extend_env env args_env) body in *)
+                      match at1 with
+                        | Some at2 -> if at2=return_type then (Some te, Func(te, args, na1))
+                            else (None, e)
+                        | None -> (None, e)
+                  end
+                      (* (Some te, Func(te, args, na1)) *)
                         (* print_endline "This ran";
                         if type_check (env@args_env) na1 return_type then
                           (Some te, Func(te, args, na1))
@@ -226,8 +241,15 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
             let extr = extr_arg_type te args in
               match extr with
                 | Some (args_env, return_type) ->
-                  let (at1, na1) = type_infer_x (env@args_env) body in
-                  (Some te, RecFunc(te, id, args, na1))
+                  begin
+                    let (at1, na1) = type_infer_x ((id, te)::args_env@env) body in
+                    match at1 with
+                      | Some at2 -> if at2=return_type then (Some te, RecFunc(te, id, args, na1))
+                      else (None, e)
+                      | None -> (None, e)
+                  end
+                  (* let (at1, na1) = type_infer_x (Environ.extend_env env args_env) body in *)
+                  (* (Some te, RecFunc(te, id, args, na1)) *)
                     (* if type_check (env@args_env) na1 return_type then
                       (Some te, RecFunc(te, id, args, na1))
                     else (None, e) *)
@@ -239,30 +261,44 @@ let rec type_infer_x (env:env_type) (e:sPL_expr) : sPL_type option * sPL_expr =
           (* check that args are consistent with inferred type *)
           (* remember to update _ with inferred type of e1 *)
           (* failwith x_tbi *)
+          (* TODO *)
           begin
+            match type_infer_x env e1 with
+              | (None, _) -> (None, e)
+              | (Some at1, na1) ->
+                begin
+                  match extr_arg_type at1 args with
+                    | Some (l2, at2) ->
+                      let res_ls = List.map(fun (ea, ta) -> (type_infer_x env ea, ta)) l2 in
+                        if List.for_all (fun ((t, _), ta) -> t=Some ta) res_ls
+                          then (Some at2, Appln(na1, Some at1, List.map(fun((_, a'), _) -> a') res_ls))
+                        else (None, e)
+                    | _ -> (None, e)
+                end
+          end
+
+
+          (* begin
             match type_infer_x env e1 with
               | (Some at1, na1) ->
                 begin
                 let extr = extr_arg_type at1 args in
                   match extr with
                     | Some (args_env, return_type) ->
+                      (* let ex_env = Environ.extend_env env args_env in *)
                       let args_expanded = List.map (fun a -> match type_infer_x env a with
+                      (* let args_expanded = List.map (fun a -> match type_infer_x ex_env a with *)
                               | (Some a', n') -> n' | _ -> a) args in
-                      (Some return_type, Appln(e1, Some at1, args_expanded))
-                    | None _ -> (None, e)
-                    | _ -> (None, e)
-                    (* let rec aux env =
-                      match env with
-                        | [] -> true
-                        | (expr, type_)::t ->
-                          if type_check env expr type_ then
-                            aux t else false
-                    in if aux args_env then
-                      (Some return_type, Appln(e1, Some at1, args))
-                    else (None, e) *)
+                      (* (Some return_type, Appln(e1, Some at1, args_expanded)) *)
+                      (* (Some return_type, Appln(e1, Some at1, args)) *)
+                      (* (Some return_type, Appln(e1, Some return_type, args_expanded)) *)
+                      (* (Some return_type, na1) *)
+                      (Some return_type, Appln(na1, Some at1, args_expanded))
+                    | None _ -> print_endline "1. This triggered"; (None, e)
+                    | _ -> print_endline "2. This triggered"; (None, e)
                 end
-              | _ -> (None, e)
-          end
+              | _ -> print_endline "3. This triggered"; print_endline (string_of_sPL e1); (None, e)
+          end *)
     | Let (ldecl,te,body) ->
           (* the implementation for Let is given *)
           (* pick the type of local vars from ldecl *)
@@ -366,15 +402,23 @@ let trans_exp (e:sPL_expr) : C.sPL_expr  =
       (* build a correct type for the function from *)
       (* the type of arguments (local vars) and body *)
       (* failwith x_tbi *)
-      (* TODO *)
-      begin
+      let vs = List.map(fun (t, v, e) -> v) ls in
+        let args = List.map(fun(t,v,e) -> aux e) ls in
+          let nbody = aux body in
+            let arrows = build_type ls t in
+              C.Appln(C. Func(arrows, vs, nbody), arrows, args)
+      (* begin
         (* let (nt1, nbody) = type_infer_x [] body in
           begin *)
         let f = aux body in
           let args = List.map (fun (t,v,b) -> aux b) ls in
+          (* let args = List.map (fun (t, v, b) -> b) ls in *)
           match get_partial t args with
-            | None -> C.Appln(f, t, args)
-            | Some (t2, ns) -> C.Func(t2, ns, C.Appln(f, t, args))
+            | None -> print_endline "First Let"; C.Appln(f, t, args)
+            (* | None -> print_endline "First Let";
+                let ids = List.map (fun (t,v,b) -> v) ls in
+                  C.Func(t, ids, f) *)
+            | Some (t2, ns) -> print_endline "Second Let"; C.Func(t2, ns, C.Appln(f, t, args))
           (* end *)
 
         (* match type_infer_x [] body with
@@ -384,7 +428,7 @@ let trans_exp (e:sPL_expr) : C.sPL_expr  =
                 C.Appln(f, t, List.map(fun (t,v, b) -> aux b) ls)
             end
           | _ -> failwith "something wrong?" *)
-      end
+      end *)
 
       (*
       begin
